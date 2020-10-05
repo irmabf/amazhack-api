@@ -1,20 +1,27 @@
 const mongoose = require("mongoose");
 const User = require("./User.model");
+const Product = require("./Product.model");
 
-const productSchema = new mongoose.Schema(
+const reviewSchema = new mongoose.Schema(
   {
     description: {
       type: String,
       required: [true, "Description is required"],
     },
-    name: {
+    title: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "Title is required"],
     },
-    price: {
-      type: String,
-      required: [true, "Price is required"],
+    score: {
+      type: Number,
+      required: [true, "Number is required"],
     },
+    product: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "Product",
+    },
+
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -36,12 +43,6 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-productSchema.virtual("review", {
-  ref: "Review",
-  localField: "_id",
-  foreignField: "product",
-});
+const Review = mongoose.model("Review", reviewSchema);
 
-const Product = mongoose.model("Product", productSchema);
-
-module.exports = Product;
+module.exports = Review;

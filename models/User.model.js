@@ -59,6 +59,12 @@ userSchema.pre("save", function (next) {
   }
 });
 
+userSchema.virtual("product", {
+  ref: "Product",
+  localField: "_id",
+  foreignField: "user",
+});
+
 userSchema.methods.checkPassword = function (password) {
   console.log(password);
   console.log(this.password);
